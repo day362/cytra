@@ -149,6 +149,20 @@ body {
 
 /* In the base layer so component utilities (e.g. focus-visible:outline-none) can override it. */
 @layer base {
+  /* Interface chrome is tapped, not read: quick or double clicks must not
+     paint a text selection. Prose, inputs and data stay selectable. */
+  button,
+  summary,
+  label,
+  [role="button"],
+  [role="option"],
+  [role="tab"],
+  nav a {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
   :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
@@ -184,6 +198,14 @@ body {
 
   .glass-strong {
     background: var(--glass-tint-strong);
+  }
+
+  /* Floating menus sit over busy content: denser tint, stronger blur. */
+  .glass-popover {
+    background: color-mix(in oklch, var(--bg-elevated) 86%, transparent);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    backdrop-filter: blur(28px) saturate(1.6);
+    box-shadow: var(--glass-shadow-lift), inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px var(--glass-edge-soft);
   }
 
   /* Pointer-following specular highlight. --mx / --my are set from JS. */

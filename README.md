@@ -32,6 +32,19 @@ CYTRA_API_KEY=sk-...
 
 任何兼容 OpenAI `/v1/chat/completions` 流式协议的服务都可以（官方 API 或各类中转）。站内模型 ID 与上游模型名的对应关系用 `CYTRA_MODEL_MAP` 修改，默认值见 `lib/llm/model-routing.ts`。
 
+### 只用一个模型
+
+设置 `CYTRA_ENABLED_MODELS=cytra-bio`，界面上的模型切换器会消失，接口也会拒绝其他模型。再用 `CYTRA_MODEL_MAP` 把 `cytra-bio` 指向你实际使用的上游模型即可。
+
+### 用免费模型演示
+
+可以把 OpenCode Zen 的免费模型（如 DeepSeek V4 Flash Free）接到 Cytra Bio 上，省钱练手，示例见 `.env.example`。仅限个人本地演示，原因有四：
+
+1. **数据可能被用于训练。** 部分免费模型在免费期内会收集数据改进模型，这和本站隐私政策里"不用于训练"的说法冲突。对外开放前，必须换成付费、零留存的接口。
+2. **随时可能下线或限流。** 免费模型多为限时提供。
+3. **Key 是你个人的。** 网站一旦公开，所有访客消耗的都是你的额度。免费层是为 opencode 个人使用设计的，用它给公众网站供能是否符合条款，请以 opencode.ai 的官方条款为准。
+4. **工具调用不一定支持。** 如果"找厂家"不出卡片，说明该模型不支持 function calling，换一个模型即可。
+
 **密钥只在服务端使用**：浏览器只和本站的 `/api/chat` 通信，从不接触上游地址和 Key。
 
 ## 常用命令

@@ -46,6 +46,27 @@ test("model picker is keyboard operable", async ({ page }) => {
   await expect(page.getByTestId("model-picker")).toContainText("GPT");
 });
 
+test("model menu paints above page content and blocks text selection", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("model-picker").click();
+  const options = page.getByRole("option");
+  await expect(options.first()).toBeVisible();
+  // Every option must be the topmost element at its own centre (nothing overlaps the menu).
+  for (const option of await options.all()) {
+    const covered = await option.evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+      return !(top && el.contains(top));
+    });
+    expect(covered).toBe(false);
+  }
+  expect(await options.first().evaluate((el) => getComputedStyle(el).userSelect)).toBe("none");
+  // Double-clicking a scenario chip must not leave a text selection behind.
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "货期评估" }).dblclick();
+  expect(await page.evaluate(() => window.getSelection()?.toString() ?? "")).toBe("");
+});
+
 test("chat API rejects malformed requests", async ({ request }) => {
   const res = await request.post("/api/chat", { data: { model: "nope", messages: [] } });
   expect(res.status()).toBe(400);

@@ -13,6 +13,8 @@ const schema = z.object({
   CYTRA_API_KEY: z.string().min(1).optional(),
   /** JSON object mapping public model ids to upstream model names. */
   CYTRA_MODEL_MAP: z.string().optional(),
+  /** Comma-separated public model ids this upstream can serve, e.g. "cytra-bio,deepseek". Empty = all. */
+  CYTRA_ENABLED_MODELS: z.string().optional(),
   INQUIRY_WEBHOOK_URL: z.url().optional(),
   RATE_LIMIT_CHAT_PER_MINUTE: z.coerce.number().int().positive().default(20),
   RATE_LIMIT_INQUIRY_PER_HOUR: z.coerce.number().int().positive().default(10),

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { DEFAULT_MODEL, type ModelId } from "@/config/models";
+import type { ModelId } from "@/config/models";
 import { AI_DISCLOSURE } from "@/config/site";
 import { emitPulse, setCalm } from "@/components/glass/field-store";
 import { SiteNav, Wordmark } from "@/components/site/SiteNav";
@@ -29,7 +29,14 @@ function idFromPath(pathname: string): string | null {
 
 const go = (path: string) => window.history.pushState(null, "", path);
 
-export function Studio({ demo: initialDemo }: { demo: boolean }) {
+type StudioProps = {
+  demo: boolean;
+  /** Models the server can serve; others are hidden. */
+  models: readonly ModelId[];
+  defaultModel: ModelId;
+};
+
+export function Studio({ demo: initialDemo, models, defaultModel }: StudioProps) {
   const pathname = usePathname();
   const activeId = idFromPath(pathname);
   const ready = useHistoryReady();
@@ -39,7 +46,7 @@ export function Studio({ demo: initialDemo }: { demo: boolean }) {
   const demo = liveDemo ?? initialDemo;
 
   const [input, setInput] = useState("");
-  const [model, setModel] = useState<ModelId>(DEFAULT_MODEL);
+  const [model, setModel] = useState<ModelId>(defaultModel);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [picked, setPicked] = useState<ReadonlyMap<string, InquiryItem>>(new Map());
@@ -51,7 +58,8 @@ export function Studio({ demo: initialDemo }: { demo: boolean }) {
   const [syncedId, setSyncedId] = useState<string | null>(null);
   if (conversation && syncedId !== conversation.id) {
     setSyncedId(conversation.id);
-    setModel(conversation.model);
+    // A conversation may predate a config change that disabled its model.
+    setModel(models.includes(conversation.model) ? conversation.model : defaultModel);
   }
 
   const mode = activeId ? "workspace" : "hero";
@@ -127,6 +135,7 @@ export function Studio({ demo: initialDemo }: { demo: boolean }) {
       streaming={isStreaming}
       model={model}
       onModelChange={setModel}
+      models={models}
       demo={demo}
       autoFocus={variant === "dock"}
     />

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Studio } from "@/components/studio/Studio";
 import { getServerEnv } from "@/lib/env";
+import { defaultModel, enabledModels } from "@/lib/llm/model-routing";
 
 export const metadata: Metadata = {
   title: "对话",
@@ -21,7 +22,7 @@ function WorkspaceShell() {
 export default function ConversationPage() {
   return (
     <Suspense fallback={<WorkspaceShell />}>
-      <Studio demo={getServerEnv().demoMode} />
+      <Studio demo={getServerEnv().demoMode} models={enabledModels()} defaultModel={defaultModel()} />
     </Suspense>
   );
 }

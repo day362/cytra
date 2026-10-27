@@ -3,7 +3,7 @@ import { MAX_HISTORY_MESSAGES } from "@/lib/chat/limits";
 import { chatRequestSchema, type ChatErrorCode, type StreamEvent } from "@/lib/chat/protocol";
 import { getServerEnv } from "@/lib/env";
 import { runMockChat } from "@/lib/llm/mock";
-import { upstreamModel } from "@/lib/llm/model-routing";
+import { enabledModels, upstreamModel } from "@/lib/llm/model-routing";
 import { UpstreamError } from "@/lib/llm/openai-compatible";
 import { runChat } from "@/lib/llm/run-chat";
 import { systemPromptFor } from "@/lib/prompts/system";
@@ -57,6 +57,9 @@ export async function POST(request: Request) {
   if (!parsed.success) return jsonError(400, "bad_request", "请求参数不正确。");
 
   const env = getServerEnv();
+  if (!enabledModels().includes(parsed.data.model)) {
+    return jsonError(400, "bad_request", "该模型当前未开放，请切换其他模型。");
+  }
   const model = getModel(parsed.data.model)!;
   const history = parsed.data.messages.slice(-MAX_HISTORY_MESSAGES).filter((m) => m.content.trim().length > 0);
   const repo = getSupplierRepository();

@@ -24,6 +24,7 @@ type Props = {
   streaming: boolean;
   model: ModelId;
   onModelChange: (id: ModelId) => void;
+  models: readonly ModelId[];
   variant: "hero" | "dock";
   demo?: boolean;
   autoFocus?: boolean;
@@ -39,6 +40,7 @@ export function Composer({
   streaming,
   model,
   onModelChange,
+  models,
   variant,
   demo,
   autoFocus,
@@ -143,9 +145,9 @@ export function Composer({
         </AnimatePresence>
       </div>
 
-      <div className="mt-2 flex items-center justify-between gap-2" onClick={(e) => e.stopPropagation()}>
+      <div className="mt-2 flex items-center justify-between gap-2 select-none" onClick={(e) => e.stopPropagation()}>
         <div className="flex min-w-0 items-center gap-1.5">
-          <ModelPicker value={model} onChange={onModelChange} placement={hero ? "bottom" : "top"} />
+          <ModelPicker value={model} onChange={onModelChange} available={models} placement={hero ? "bottom" : "top"} />
           {demo && (
             <span
               title="未配置模型 API，回答为预置演示内容"
