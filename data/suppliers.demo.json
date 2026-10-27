@@ -1,0 +1,206 @@
+[
+  {
+    "id": "demo-qinghe",
+    "name": "示例·青禾培养",
+    "region": "中国大陆",
+    "city": "苏州",
+    "categories": ["细胞培养基"],
+    "keywords": ["培养基", "CHO", "化学成分限定", "无血清", "AOF", "medium", "补料", "feed", "HEK293"],
+    "products": [
+      { "name": "CHO 化学成分限定基础培养基", "grade": "GMP", "animalOriginFree": true },
+      { "name": "CHO 浓缩补料培养基", "grade": "GMP", "animalOriginFree": true },
+      { "name": "HEK293 悬浮无血清培养基", "grade": "RUO", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001", "ISO 13485", "GMP 符合性声明"],
+    "documents": ["CoA", "CoO", "无动物源声明", "变更通知协议", "DMF (US) 授权信"],
+    "leadTimeWeeks": [3, 6],
+    "moq": "100 L（干粉按配制体积计）",
+    "note": "支持干粉与液体两种形式，可做定制配方与批次预留。",
+    "demo": true
+  },
+  {
+    "id": "demo-chengyuan",
+    "name": "示例·澄源生物",
+    "region": "中国大陆",
+    "city": "上海",
+    "categories": ["细胞培养基", "血清替代"],
+    "keywords": ["培养基", "无血清", "Vero", "血清", "FBS", "替代", "medium", "MDCK", "疫苗"],
+    "products": [
+      { "name": "Vero 细胞无血清培养基", "grade": "GMP", "animalOriginFree": true },
+      { "name": "MDCK 无血清培养基", "grade": "GMP", "animalOriginFree": false },
+      { "name": "重组血清替代物", "grade": "RUO", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001", "GMP 符合性声明"],
+    "documents": ["CoA", "CoO", "TSE/BSE 声明", "无动物源声明"],
+    "leadTimeWeeks": [2, 5],
+    "moq": "50 L",
+    "note": "疫苗细胞基质方向经验较多，可提供适应性驯化技术支持。",
+    "demo": true
+  },
+  {
+    "id": "demo-hengsu",
+    "name": "示例·恒溯酶工程",
+    "region": "中国大陆",
+    "city": "武汉",
+    "categories": ["工具酶"],
+    "keywords": ["胰蛋白酶", "trypsin", "重组", "酶", "核酸酶", "nuclease", "消化", "TrypLE"],
+    "products": [
+      { "name": "重组胰蛋白酶（无动物源）", "grade": "GMP", "animalOriginFree": true },
+      { "name": "非特异性核酸酶（宿主 DNA 去除）", "grade": "GMP", "animalOriginFree": true },
+      { "name": "重组胰蛋白酶", "grade": "RUO", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001", "ISO 13485", "GMP 符合性声明"],
+    "documents": ["CoA", "CoO", "无动物源声明", "DMF (US) 授权信", "残留检测方法"],
+    "leadTimeWeeks": [2, 4],
+    "moq": "10 g",
+    "note": "核酸酶提供残留 ELISA 检测试剂盒配套。",
+    "demo": true
+  },
+  {
+    "id": "demo-beichen",
+    "name": "示例·北辰层析",
+    "region": "中国大陆",
+    "city": "北京",
+    "categories": ["层析填料"],
+    "keywords": ["Protein A", "亲和", "填料", "层析", "resin", "抗体", "纯化", "离子交换"],
+    "products": [
+      { "name": "碱稳定型 Protein A 亲和填料", "grade": "GMP", "animalOriginFree": true },
+      { "name": "强阴离子交换填料", "grade": "GMP", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001", "GMP 符合性声明"],
+    "documents": ["CoA", "Regulatory Support File", "可提取物数据", "配基脱落检测方法"],
+    "leadTimeWeeks": [6, 12],
+    "moq": "1 L",
+    "note": "动态载量与 0.5 M NaOH 耐受数据可在 NDA 后提供。",
+    "demo": true
+  },
+  {
+    "id": "demo-yaoshi",
+    "name": "示例·曜石分离",
+    "region": "中国大陆",
+    "city": "杭州",
+    "categories": ["层析填料"],
+    "keywords": ["填料", "层析", "离子交换", "疏水", "复合模式", "resin", "Protein A", "抗体"],
+    "products": [
+      { "name": "复合模式层析填料", "grade": "GMP", "animalOriginFree": true },
+      { "name": "Protein A 亲和填料", "grade": "RUO", "animalOriginFree": true },
+      { "name": "疏水层析填料", "grade": "GMP", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001"],
+    "documents": ["CoA", "Regulatory Support File"],
+    "leadTimeWeeks": [4, 8],
+    "moq": "500 mL",
+    "note": "Protein A 产品线目前仅 RUO 级，GMP 级处于验证阶段。",
+    "demo": true
+  },
+  {
+    "id": "demo-yuanhe",
+    "name": "示例·渊合辅料",
+    "region": "中国大陆",
+    "city": "南京",
+    "categories": ["药用辅料"],
+    "keywords": ["蔗糖", "海藻糖", "辅料", "注射级", "聚山梨酯", "吐温", "PS80", "冻干", "保护剂"],
+    "products": [
+      { "name": "注射级蔗糖（低内毒素）", "grade": "药用级", "animalOriginFree": true },
+      { "name": "注射级海藻糖", "grade": "药用级", "animalOriginFree": true },
+      { "name": "聚山梨酯 80（高纯，植物源）", "grade": "药用级", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001", "药用辅料登记（CDE 已登记）", "GMP 符合性声明"],
+    "documents": ["CoA", "CoO", "多药典符合性声明（ChP/USP/EP）", "元素杂质评估", "TSE/BSE 声明"],
+    "leadTimeWeeks": [2, 4],
+    "moq": "25 kg",
+    "note": "聚山梨酯 80 提供过氧化物与游离脂肪酸控制数据。",
+    "demo": true
+  },
+  {
+    "id": "demo-weilan",
+    "name": "示例·维澜一次性",
+    "region": "中国大陆",
+    "city": "广州",
+    "categories": ["一次性耗材"],
+    "keywords": ["一次性", "储液袋", "生物反应器袋", "SUS", "管路", "无菌连接", "single-use"],
+    "products": [
+      { "name": "2D/3D 储液袋", "grade": "GMP", "animalOriginFree": true },
+      { "name": "50–2000 L 生物反应器袋", "grade": "GMP", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001", "ISO 13485", "洁净车间 ISO 7"],
+    "documents": ["CoA", "Validation Guide", "可提取物/浸出物报告", "USP <87>/<88> 报告", "辐照证书"],
+    "leadTimeWeeks": [4, 10],
+    "moq": "20 件",
+    "note": "膜材供应来源可追溯，定制组件需额外 2–4 周设计确认。",
+    "demo": true
+  },
+  {
+    "id": "demo-tuoxi",
+    "name": "示例·拓析科技",
+    "region": "亚太",
+    "city": "新加坡",
+    "categories": ["过滤"],
+    "keywords": ["过滤", "除菌", "滤器", "除病毒", "深层过滤", "filter", "0.22"],
+    "products": [
+      { "name": "0.22 μm 除菌级过滤器（PES）", "grade": "GMP", "animalOriginFree": true },
+      { "name": "深层过滤模块", "grade": "GMP", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001", "ISO 13485"],
+    "documents": ["CoA", "Validation Guide", "细菌截留验证报告", "可提取物报告"],
+    "leadTimeWeeks": [3, 8],
+    "moq": "10 支",
+    "note": "除病毒滤器暂不在产品线内。",
+    "demo": true
+  },
+  {
+    "id": "demo-alpenmatrix",
+    "name": "示例·Alpenmatrix",
+    "region": "欧洲",
+    "city": "巴塞尔",
+    "categories": ["细胞培养基", "层析填料"],
+    "keywords": ["培养基", "CHO", "Protein A", "填料", "medium", "resin", "化学成分限定", "AOF"],
+    "products": [
+      { "name": "CHO 化学成分限定培养基平台", "grade": "GMP", "animalOriginFree": true },
+      { "name": "高载量 Protein A 填料", "grade": "GMP", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001", "ISO 13485", "EXCiPACT", "GMP 符合性声明"],
+    "documents": ["CoA", "CoO", "DMF (US) 授权信", "无动物源声明", "变更通知协议", "Regulatory Support File"],
+    "leadTimeWeeks": [8, 16],
+    "moq": "500 L / 1 L",
+    "note": "进口清关周期需额外计入，建议签订年度框架协议锁定产能。",
+    "demo": true
+  },
+  {
+    "id": "demo-northfield",
+    "name": "示例·Northfield Bioprocess",
+    "region": "北美",
+    "city": "波士顿",
+    "categories": ["工具酶", "细胞培养基"],
+    "keywords": ["胰蛋白酶", "核酸酶", "培养基", "trypsin", "nuclease", "HEK293", "病毒载体", "AAV"],
+    "products": [
+      { "name": "病毒载体用 HEK293 培养基", "grade": "GMP", "animalOriginFree": true },
+      { "name": "GMP 级非特异性核酸酶", "grade": "GMP", "animalOriginFree": true },
+      { "name": "重组胰蛋白酶", "grade": "GMP", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 13485", "GMP 符合性声明"],
+    "documents": ["CoA", "CoO", "DMF (US) 授权信", "无动物源声明"],
+    "leadTimeWeeks": [6, 14],
+    "moq": "10 L / 1 g",
+    "note": "部分产品受出口管制分类审查，需提前确认最终用户声明。",
+    "demo": true
+  },
+  {
+    "id": "demo-qimu",
+    "name": "示例·栖木生物",
+    "region": "中国大陆",
+    "city": "成都",
+    "categories": ["细胞培养基", "生长因子"],
+    "keywords": ["生长因子", "细胞因子", "IL-2", "干细胞", "培养基", "重组蛋白", "细胞治疗", "CAR-T"],
+    "products": [
+      { "name": "T 细胞无血清培养基", "grade": "GMP", "animalOriginFree": true },
+      { "name": "重组人 IL-2", "grade": "GMP", "animalOriginFree": true }
+    ],
+    "certifications": ["ISO 9001", "ISO 13485", "GMP 符合性声明"],
+    "documents": ["CoA", "CoO", "无动物源声明", "生物学活性检测报告"],
+    "leadTimeWeeks": [2, 6],
+    "moq": "1 L / 100 μg",
+    "note": "细胞治疗方向，可提供 DMF 交叉引用支持（申请中）。",
+    "demo": true
+  }
+]

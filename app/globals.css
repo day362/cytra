@@ -1,26 +1,370 @@
 @import "tailwindcss";
 
+/*
+ * Cytra design tokens — "载玻片 / Slide Glass".
+ * Every color is a CSS variable so light/dark switch without `dark:` variants.
+ * Light is the default; dark applies for system preference (unless the user
+ * forced light) or when the user forced dark.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  color-scheme: light;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: oklch(0.973 0.004 220);
+  --bg-elevated: oklch(0.99 0.002 220);
+  --ink: oklch(0.23 0.016 232);
+  --ink-2: oklch(0.44 0.016 232);
+  --ink-3: oklch(0.52 0.012 232);
+  --line: oklch(0.23 0.016 232 / 0.08);
+  --line-strong: oklch(0.23 0.016 232 / 0.14);
+
+  --accent: oklch(0.53 0.11 186);
+  --accent-strong: oklch(0.48 0.1 188);
+  --accent-soft: oklch(0.6 0.11 186 / 0.13);
+  --accent-ink: oklch(0.99 0 0);
+  --danger: oklch(0.58 0.17 25);
+
+  --glass-tint: oklch(1 0 0 / 0.42);
+  --glass-tint-strong: oklch(1 0 0 / 0.72);
+  --glass-edge: oklch(1 0 0 / 0.75);
+  --glass-edge-soft: oklch(1 0 0 / 0.32);
+  --glass-shadow: 0 1px 1px oklch(0.3 0.03 230 / 0.04), 0 8px 24px -12px oklch(0.3 0.04 230 / 0.18),
+    0 30px 60px -30px oklch(0.3 0.05 230 / 0.22);
+  --glass-shadow-lift: 0 1px 1px oklch(0.3 0.03 230 / 0.05), 0 14px 32px -12px oklch(0.3 0.04 230 / 0.24),
+    0 44px 80px -36px oklch(0.3 0.05 230 / 0.3);
+  --glass-blur: 18px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --fallback-field: radial-gradient(60% 50% at 30% 35%, oklch(0.9 0.05 185 / 0.7), transparent 70%),
+    radial-gradient(50% 45% at 72% 60%, oklch(0.88 0.04 250 / 0.6), transparent 70%),
+    radial-gradient(40% 40% at 55% 20%, oklch(0.92 0.035 300 / 0.5), transparent 70%);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg: oklch(0.17 0.012 236);
+    --bg-elevated: oklch(0.21 0.013 236);
+    --ink: oklch(0.95 0.005 220);
+    --ink-2: oklch(0.76 0.01 225);
+    --ink-3: oklch(0.6 0.012 228);
+    --line: oklch(1 0 0 / 0.08);
+    --line-strong: oklch(1 0 0 / 0.14);
+
+    --accent: oklch(0.74 0.12 184);
+    --accent-strong: oklch(0.8 0.12 182);
+    --accent-soft: oklch(0.74 0.12 184 / 0.14);
+    --accent-ink: oklch(0.18 0.03 220);
+    --danger: oklch(0.7 0.16 25);
+
+    --glass-tint: oklch(0.32 0.015 236 / 0.32);
+    --glass-tint-strong: oklch(0.26 0.014 236 / 0.78);
+    --glass-edge: oklch(1 0 0 / 0.2);
+    --glass-edge-soft: oklch(1 0 0 / 0.07);
+    --glass-shadow: 0 1px 1px oklch(0 0 0 / 0.2), 0 10px 30px -12px oklch(0 0 0 / 0.5),
+      0 30px 60px -30px oklch(0 0 0 / 0.6);
+    --glass-shadow-lift: 0 1px 1px oklch(0 0 0 / 0.25), 0 16px 40px -12px oklch(0 0 0 / 0.6),
+      0 44px 80px -36px oklch(0 0 0 / 0.7);
+
+    --fallback-field: radial-gradient(60% 50% at 30% 35%, oklch(0.4 0.08 185 / 0.45), transparent 70%),
+      radial-gradient(50% 45% at 72% 60%, oklch(0.35 0.08 260 / 0.4), transparent 70%),
+      radial-gradient(40% 40% at 55% 20%, oklch(0.35 0.07 300 / 0.3), transparent 70%);
   }
 }
 
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: oklch(0.17 0.012 236);
+  --bg-elevated: oklch(0.21 0.013 236);
+  --ink: oklch(0.95 0.005 220);
+  --ink-2: oklch(0.76 0.01 225);
+  --ink-3: oklch(0.6 0.012 228);
+  --line: oklch(1 0 0 / 0.08);
+  --line-strong: oklch(1 0 0 / 0.14);
+
+  --accent: oklch(0.74 0.12 184);
+  --accent-strong: oklch(0.8 0.12 182);
+  --accent-soft: oklch(0.74 0.12 184 / 0.14);
+  --accent-ink: oklch(0.18 0.03 220);
+  --danger: oklch(0.7 0.16 25);
+
+  --glass-tint: oklch(0.32 0.015 236 / 0.32);
+  --glass-tint-strong: oklch(0.26 0.014 236 / 0.78);
+  --glass-edge: oklch(1 0 0 / 0.2);
+  --glass-edge-soft: oklch(1 0 0 / 0.07);
+  --glass-shadow: 0 1px 1px oklch(0 0 0 / 0.2), 0 10px 30px -12px oklch(0 0 0 / 0.5),
+    0 30px 60px -30px oklch(0 0 0 / 0.6);
+  --glass-shadow-lift: 0 1px 1px oklch(0 0 0 / 0.25), 0 16px 40px -12px oklch(0 0 0 / 0.6),
+    0 44px 80px -36px oklch(0 0 0 / 0.7);
+
+  --fallback-field: radial-gradient(60% 50% at 30% 35%, oklch(0.4 0.08 185 / 0.45), transparent 70%),
+    radial-gradient(50% 45% at 72% 60%, oklch(0.35 0.08 260 / 0.4), transparent 70%),
+    radial-gradient(40% 40% at 55% 20%, oklch(0.35 0.07 300 / 0.3), transparent 70%);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-danger: var(--danger);
+
+  --font-sans: var(--font-latin), "PingFang SC", "HarmonyOS Sans SC", "Hiragino Sans GB", "Microsoft YaHei UI",
+    "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: var(--font-mono-latin), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100dvh;
+  background: var(--bg) var(--fallback-field);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* In the base layer so component utilities (e.g. focus-visible:outline-none) can override it. */
+@layer base {
+  /* Interface chrome is tapped, not read: quick or double clicks must not
+     paint a text selection. Prose, inputs and data stay selectable. */
+  button,
+  summary,
+  label,
+  [role="button"],
+  [role="option"],
+  [role="tab"],
+  nav a {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 10px;
+  }
+}
+
+/* ---------- Glass surfaces ---------- */
+
+@layer components {
+  /* Base frosted glass for cards, nav, popovers. */
+  .glass {
+    position: relative;
+    background: var(--glass-tint);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px var(--glass-edge-soft);
+  }
+
+  /* Hairline gradient rim: bright at the top-left, fading toward the bottom. */
+  .glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(160deg, var(--glass-edge), transparent 38%, transparent 70%, var(--glass-edge-soft));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .glass-strong {
+    background: var(--glass-tint-strong);
+  }
+
+  /* Floating menus sit over busy content: denser tint, stronger blur. */
+  .glass-popover {
+    background: color-mix(in oklch, var(--bg-elevated) 86%, transparent);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    backdrop-filter: blur(28px) saturate(1.6);
+    box-shadow: var(--glass-shadow-lift), inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px var(--glass-edge-soft);
+  }
+
+  /* Pointer-following specular highlight. --mx / --my are set from JS. */
+  .specular::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      220px circle at var(--mx, 50%) var(--my, -40%),
+      oklch(1 0 0 / 0.38),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out);
+    pointer-events: none;
+  }
+
+  .specular:hover::after {
+    opacity: 1;
+  }
+
+  :root[data-theme="dark"] .specular::after {
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, -40%), oklch(1 0 0 / 0.1), transparent 60%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .specular::after {
+      background: radial-gradient(220px circle at var(--mx, 50%) var(--my, -40%), oklch(1 0 0 / 0.1), transparent 60%);
+    }
+  }
+
+  /* Monospaced spec text: CAS numbers, lot numbers, lead times. */
+  .spec {
+    font-family: var(--font-mono);
+    font-feature-settings: "zero", "tnum";
+    letter-spacing: -0.01em;
+  }
+}
+
+/* When the WebGL field is running it renders the frosted interior of the
+   hero composer itself (with real refraction), so the CSS tint backs off. */
+:root[data-gl="on"] .glass-lens {
+  background: oklch(1 0 0 / 0.1);
+  -webkit-backdrop-filter: blur(6px) saturate(1.3);
+  backdrop-filter: blur(6px) saturate(1.3);
+}
+
+:root[data-gl="on"][data-theme="dark"] .glass-lens {
+  background: oklch(0.3 0.01 236 / 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-gl="on"]:not([data-theme="light"]) .glass-lens {
+    background: oklch(0.3 0.01 236 / 0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Assistant prose ---------- */
+
+.prose-cytra {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.prose-cytra > * + * {
+  margin-top: 0.85em;
+}
+.prose-cytra h1,
+.prose-cytra h2,
+.prose-cytra h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  margin-top: 1.4em;
+}
+.prose-cytra h1 { font-size: 1.3em; }
+.prose-cytra h2 { font-size: 1.15em; }
+.prose-cytra h3 { font-size: 1.02em; }
+.prose-cytra strong { font-weight: 600; }
+.prose-cytra em { color: var(--ink-2); }
+.prose-cytra a {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--accent) 40%, transparent);
+  text-underline-offset: 3px;
+}
+.prose-cytra ul,
+.prose-cytra ol { padding-left: 1.3em; }
+.prose-cytra ul { list-style: disc; }
+.prose-cytra ol { list-style: decimal; }
+.prose-cytra li + li { margin-top: 0.35em; }
+.prose-cytra li::marker { color: var(--ink-3); }
+.prose-cytra blockquote {
+  border-left: 2px solid var(--accent);
+  padding: 0.2em 0 0.2em 1em;
+  color: var(--ink-2);
+}
+.prose-cytra code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  padding: 0.12em 0.4em;
+  border-radius: 6px;
+  background: var(--line);
+}
+.prose-cytra pre {
+  overflow-x: auto;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--line);
+}
+.prose-cytra pre code { padding: 0; background: none; }
+.prose-cytra hr { border-color: var(--line-strong); }
+.prose-cytra .table-wrap {
+  overflow-x: auto;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  background: var(--glass-tint);
+}
+.prose-cytra table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.prose-cytra th,
+.prose-cytra td {
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+.prose-cytra th {
+  font-weight: 600;
+  color: var(--ink-2);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+.prose-cytra tr:last-child td { border-bottom: 0; }
+
+/* "Developing" effect: the newest lines of a streaming answer fade in like
+   an image appearing in developer solution. */
+.developing {
+  /* Extra bottom space means the fade mostly covers empty room, so the last
+     line reads as "still appearing" rather than hidden. */
+  padding-bottom: 1.6em;
+  margin-bottom: -1.6em;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 3.4em), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 3.4em), transparent);
 }
