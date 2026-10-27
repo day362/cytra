@@ -5,6 +5,7 @@ import { getServerEnv } from "@/lib/env";
 import { runMockChat } from "@/lib/llm/mock";
 import { enabledModels, upstreamModel } from "@/lib/llm/model-routing";
 import { UpstreamError } from "@/lib/llm/openai-compatible";
+import { OpencodeError, runOpencodeChat } from "@/lib/llm/opencode";
 import { runChat } from "@/lib/llm/run-chat";
 import { systemPromptFor } from "@/lib/prompts/system";
 import { clientKey, MemoryRateLimiter } from "@/lib/rate-limit";
@@ -23,6 +24,8 @@ function describe(error: unknown): { code: ChatErrorCode; message: string } {
   if (error instanceof DOMException && error.name === "TimeoutError") {
     return { code: "timeout", message: "模型响应超时，请稍后重试。" };
   }
+  // Local-only provider: surface the actionable message (e.g. "start npm run opencode").
+  if (error instanceof OpencodeError) return { code: "upstream", message: error.message };
   if (error instanceof UpstreamError) {
     if (error.status === 429) return { code: "rate_limited", message: "模型服务繁忙，请稍后重试。" };
     if (error.status === 401 || error.status === 403) return { code: "upstream", message: "模型服务鉴权失败，请联系管理员检查配置。" };
@@ -67,18 +70,30 @@ export async function POST(request: Request) {
   // Abort upstream work when the client disconnects or the deadline passes.
   const signal = AbortSignal.any([request.signal, AbortSignal.timeout(env.UPSTREAM_TIMEOUT_MS)]);
 
+  const system = systemPromptFor(model, new Date().toISOString().slice(0, 10));
   const events: AsyncGenerator<StreamEvent> = env.demoMode
     ? runMockChat({ model, lastUserMessage: history.at(-1)!.content, repo, signal })
-    : runChat({
-        baseUrl: env.CYTRA_API_BASE_URL!,
-        apiKey: env.CYTRA_API_KEY!,
-        upstreamModel: upstreamModel(model.id),
-        model,
-        system: systemPromptFor(model, new Date().toISOString().slice(0, 10)),
-        history,
-        repo,
-        signal,
-      });
+    : env.CYTRA_PROVIDER === "opencode"
+      ? runOpencodeChat({
+          baseUrl: env.OPENCODE_URL,
+          model: env.OPENCODE_MODEL,
+          password: env.OPENCODE_SERVER_PASSWORD,
+          modelOption: model,
+          system,
+          history,
+          repo,
+          signal,
+        })
+      : runChat({
+          baseUrl: env.CYTRA_API_BASE_URL!,
+          apiKey: env.CYTRA_API_KEY!,
+          upstreamModel: upstreamModel(model.id),
+          model,
+          system,
+          history,
+          repo,
+          signal,
+        });
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {

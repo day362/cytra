@@ -12,10 +12,10 @@
 
 ```bash
 npm install
-npm run dev          # http://localhost:3000
+npm run dev
 ```
 
-不配置任何环境变量也能完整体验：此时处于**演示模式**，回答来自预置内容，厂家卡片来自虚构的示例数据（界面会标注"演示模式"和"示例数据"）。
+然后浏览器打开 http://localhost:3000 。不配置任何环境变量也能完整体验：此时处于**演示模式**，回答来自预置内容，厂家卡片来自虚构的示例数据（界面会标注"演示模式"和"示例数据"）。
 
 ### 接入真实模型
 
@@ -32,13 +32,36 @@ CYTRA_API_KEY=sk-...
 
 任何兼容 OpenAI `/v1/chat/completions` 流式协议的服务都可以（官方 API 或各类中转）。站内模型 ID 与上游模型名的对应关系用 `CYTRA_MODEL_MAP` 修改，默认值见 `lib/llm/model-routing.ts`。
 
+### 免费方式：借用本机 OpenCode（不需要 Key）
+
+如果你电脑上装了 [OpenCode](https://opencode.ai)，网站可以直接借用它能访问的模型，包括免费模型，不需要任何 API Key。
+
+1. 查看可用模型：`opencode models`
+2. 在 `.env.local` 写两行：
+   ```ini
+   CYTRA_PROVIDER=opencode
+   OPENCODE_MODEL=opencode/deepseek-v4.1-flash-free
+   ```
+3. 开两个终端。终端 1 启动受限的 OpenCode 服务，并保持开着：
+   ```bash
+   npm run opencode
+   ```
+   终端 2 启动网站：
+   ```bash
+   npm run dev
+   ```
+
+工作方式：`npm run opencode` 会在 `~/.cytra-opencode` 写入一个专用的 `cytra` agent（禁用全部工具、拒绝全部权限），然后在 `127.0.0.1:4096` 启动 `opencode serve`。网站每次对话会新建一个"一律拒绝权限、关闭全部工具"的会话，拿到文字回答后立即删除这个会话。所以网页上来的任何输入，都**不能**在你电脑上执行命令或读写文件。找厂家类的问题由网站先检索厂家库，再把结果交给模型参考。
+
+限制：只能在装了 OpenCode 的这台电脑上用，无法部署上线；免费模型的数据政策与可用性见下文"用免费模型演示"。
+
 ### 只用一个模型
 
 设置 `CYTRA_ENABLED_MODELS=cytra-bio`，界面上的模型切换器会消失，接口也会拒绝其他模型。再用 `CYTRA_MODEL_MAP` 把 `cytra-bio` 指向你实际使用的上游模型即可。
 
 ### 用免费模型演示
 
-可以把 OpenCode Zen 的免费模型（如 DeepSeek V4 Flash Free）接到 Cytra Bio 上，省钱练手，示例见 `.env.example`。仅限个人本地演示，原因有四：
+无论是借用本机 OpenCode，还是用 Zen Key 直连，免费模型（如 DeepSeek V4.1 Flash Free）都只适合个人本地演示，原因有四：
 
 1. **数据可能被用于训练。** 部分免费模型在免费期内会收集数据改进模型，这和本站隐私政策里"不用于训练"的说法冲突。对外开放前，必须换成付费、零留存的接口。
 2. **随时可能下线或限流。** 免费模型多为限时提供。
@@ -58,6 +81,7 @@ CYTRA_API_KEY=sk-...
 | `npm test` | 单元测试（Vitest） |
 | `npm run test:e2e` | 端到端测试（Playwright，需先 `npm run build`） |
 | `npm run check` | lint + 类型 + 单测 + 构建，一次跑完 |
+| `npm run opencode` | 启动受限的本机 OpenCode 服务（`CYTRA_PROVIDER=opencode` 时使用） |
 
 首次运行 E2E 前执行 `npx playwright install chromium`。
 
@@ -82,7 +106,7 @@ components/
   inquiry/                 询价表单（弹窗与关于页共用）
   site/ marketing/ ui/     导航、页脚、通用组件、图标
 lib/
-  llm/                     OpenAI 兼容流式客户端、工具调用循环、演示回答器
+  llm/                     OpenAI 兼容流式客户端、工具调用循环、本机 OpenCode 适配器、演示回答器
   chat/                    前后端协议、对话状态 hook、本地历史存储
   suppliers/               厂家库接口与示例实现
   inquiry/                 询价表单校验规则（前后端共用）

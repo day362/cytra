@@ -1,6 +1,7 @@
 import type { ModelOption } from "@/config/models";
 import type { StreamEvent } from "@/lib/chat/protocol";
 import type { SupplierRepository } from "@/lib/suppliers/repository";
+import { SUPPLIER_INTENT, supplierQueryFrom } from "@/lib/suppliers/intent";
 import type { SupplierQuery } from "@/lib/suppliers/types";
 
 /**
@@ -10,31 +11,6 @@ import type { SupplierQuery } from "@/lib/suppliers/types";
  */
 
 type Script = { before: string; query?: SupplierQuery; after?: string };
-
-const SUPPLIER_INTENT = /厂家|厂商|供应商|供货|哪家|询价|采购渠道|supplier|vendor/i;
-
-function detectMaterial(text: string): string {
-  const known = [
-    "Protein A",
-    "胰蛋白酶",
-    "核酸酶",
-    "培养基",
-    "填料",
-    "蔗糖",
-    "海藻糖",
-    "聚山梨酯",
-    "储液袋",
-    "生物反应器袋",
-    "过滤器",
-    "IL-2",
-    "生长因子",
-    "血清",
-  ];
-  const lower = text.toLowerCase();
-  const hit = known.find((k) => lower.includes(k.toLowerCase()));
-  if (hit) return /CHO/i.test(text) && hit === "培养基" ? "CHO 培养基" : hit;
-  return text.replace(/[，。？！?!,.]/g, " ").trim().slice(0, 20);
-}
 
 function scriptFor(text: string, model: ModelOption): Script {
   if (SUPPLIER_INTENT.test(text)) {
@@ -55,11 +31,11 @@ function scriptFor(text: string, model: ModelOption): Script {
 | 目标市场 | 中国 + 美国申报 |`,
       };
     }
-    const grade = /GMP/i.test(text) ? "GMP" : /药用|注射级/.test(text) ? "药用级" : undefined;
-    const aof = /无动物源|AOF|animal[- ]?free|化学成分限定/i.test(text) || undefined;
+    const query = supplierQueryFrom(text)!;
+    const { grade, animal_origin_free: aof } = query;
     return {
       before: `好的，我先按你的需求检索厂家库${grade ? `（等级：${grade}${aof ? "，无动物源" : ""}）` : ""}。`,
-      query: { material: detectMaterial(text), grade, animal_origin_free: aof },
+      query,
       after: `> 以上为**示例数据**，用于演示检索与比价流程，并非真实企业。
 
 **怎么看这几家：**

@@ -46,7 +46,10 @@ export function enabledModels(): ModelId[] {
   if (enabled) return enabled;
   const env = getServerEnv();
   const raw = env.CYTRA_ENABLED_MODELS?.split(",").map((s) => s.trim()).filter(Boolean);
-  if (env.demoMode || !raw?.length) {
+  if (env.CYTRA_PROVIDER === "opencode" && !raw?.length) {
+    // One local model backs the dedicated assistant; there is nothing to choose.
+    enabled = ["cytra-bio"];
+  } else if (env.demoMode || !raw?.length) {
     enabled = [...MODEL_IDS];
   } else {
     const unknown = raw.filter((id) => !(MODEL_IDS as readonly string[]).includes(id));
